@@ -1945,7 +1945,7 @@ header .logo a {
 	display: block;
 	text-align: center;
 	float: left;
-	width: 50%;
+	width: 100%;
 	-moz-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -1956,6 +1956,37 @@ header .logo a {
 	border-right: 1px solid rgba(200, 200, 200, 0.1);
 }
 .popup-modal .link-box a:hover {
+	background: #cc005f;
+	border: none;
+}
+
+.popup-modal .link-box2 {
+	width: 100%;
+	overflow: hidden;
+	background: #000000;
+}
+.popup-modal .link-box2 a {
+	font-family: "poppins-bold", sans-serif;
+	font-size: 1.2rem;
+	line-height: 6rem;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	float: left;
+	width: 50%;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+.popup-modal .link-box2 a:first-child {
+	border-right: 1px solid rgba(200, 200, 200, 0.1);
+}
+.popup-modal .link-box2 a:hover {
 	background: #cc005f;
 	border: none;
 }
