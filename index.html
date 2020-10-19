@@ -339,7 +339,7 @@
             <h1>Check Out Some of My Works.</h1>
 
             <p class="lead">Projects are where most of the learning is done. Here are the most notable I worked on
-               during my years at EPFL and Chalmers.</p>
+               during my years at EPFL and Chalmers. They were done in very diverse courses and made me apply as well as learn a plethora of skills.</p>
 
          </div>
       </div> <!-- /section-intro-->
@@ -355,12 +355,12 @@
                <div class="bgrid folio-item">
                   <div class="item-wrap">
                      <img src="images/portfolio/swisscom/drone_square.png" alt="Swisscom LoRa">
-                     <a href="#modal-01" class="overlay">
+                     <a href="#modal-swisscom" class="overlay">
                         <div class="folio-item-table">
                            <div class="folio-item-cell">
                               <h3 class="folio-title">Drone-aided Localization in LoRa IoT networks</h3>
                               <span class="folio-types">
-                                 C++, ROS, Python, drones
+                                 C++, ROS, Python, MATLAB, drones
                               </span>
                            </div>
                         </div>
@@ -371,8 +371,8 @@
                <!-- simulator -->
                <div class="bgrid folio-item">
                   <div class="item-wrap">
-                     <img src="images/portfolio/simulator-lis/main_swarm2_square.png" alt="Simulator LIS">
-                     <a href="#modal-02" class="overlay">
+                     <img src="images/portfolio/simulator-lis/main_swarm2_square.png" alt="Simulator representing a single drone in high-fidelity mode">
+                     <a href="#modal-lis" class="overlay">
                         <div class="folio-item-table">
                            <div class="folio-item-cell">
                               <h3 class="folio-title">Simulator for swarms of quadcopters</h3>
@@ -395,6 +395,40 @@
                               <h3 class="folio-title">Design of an autonomous robotic fish</h3>
                               <span class="folio-types">
                                  Mechanical design, SolidWorks, PCB
+                              </span>
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </div> <!-- /folio-item -->
+
+               <!-- legged -->
+               <div class="bgrid folio-item">
+                  <div class="item-wrap">
+                     <img src="images/portfolio/legged/bob.jpg" alt="Legged control">
+                     <a href="#modal-legged" class="overlay">
+                        <div class="folio-item-table">
+                           <div class="folio-item-cell">
+                              <h3 class="folio-title">Control of a 2D legged robot</h3>
+                              <span class="folio-types">
+                                 MATLAB, control
+                              </span>
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </div> <!-- /folio-item -->
+
+               <!-- simulation -->
+               <div class="bgrid folio-item">
+                  <div class="item-wrap">
+                     <img src="images/portfolio/sim/em_0_before.png" alt="Simulation and optimization">
+                     <a href="#modal-sim" class="overlay">
+                        <div class="folio-item-table">
+                           <div class="folio-item-cell">
+                              <h3 class="folio-title">Simulation of flux in large events</h3>
+                              <span class="folio-types">
+                                 AnyLogic, Java
                               </span>
                            </div>
                         </div>
@@ -474,7 +508,7 @@
                     ============================================================= -->
 
                <!-- swisscom -->
-               <div id="modal-01" class="popup-modal slider mfp-hide">
+               <div id="modal-swisscom" class="popup-modal slider mfp-hide">
 
                   <div class="media">
                      <img src="images/portfolio/swisscom/drone.png" alt="Swisscom system" />
@@ -482,31 +516,39 @@
 
                   <div class="description-box">
                      <h4>Drone-aided Localization in LoRa IoT networks</h4>
-                     <p>Precise localization of a ground beacon using the LoRa communication signal strength with
-                        relation to one or multiple drones.</p>
-                     <p>Supervised by MM. Rusu, Schiano, Cocco and Pr. Floreano</p>
+                     <p>My master thesis was done at the Swisscom Digital Lab supervised by MM. Rusu, Schiano, Cocco and Pr. Floreano. 
+                        It's goal was to develop a system for precise localization of a ground beacon using the LoRa communication signal strength with relation to one or multiple drones.</p>
+                     <p>The first step of the project was to understand the relationship between the signal strength and the distance between the two devices. 
+                        With this information it was possible to develop simple localization algorithms in MATLAB.
+                        These algorithms were then implemented in C++ using ROS to be run on the drone's onboard computer. 
+                        The project also included development of a web interface to visualize the drone's flight and the current localization's advancement.</p>
                      <p>Final grade of 5.5/6</p>
 
-                     <div class="categories">C++, Python, ROS, drones</div>
+                     <div class="categories">C++, Python, ROS, MATLAB, drones</div>
                   </div>
 
-                  <div class="link-box">
-                     <a href="https://www.youtube.com/watch?v=7HQ6MxwWS4w" target="_blank">Details</a>
+                  <div class="link-box3">
+                     <a href="https://www.youtube.com/watch?v=7HQ6MxwWS4w" target="_blank">YouTube</a>
+                     <a href="https://arxiv.org/abs/2004.03852" target="_blank">Paper</a>
                      <a href="#" class="popup-modal-dismiss">Close</a>
                   </div>
-               </div> <!-- /modal-01 -->
+               </div> <!-- /modal-swisscom -->
 
                <!-- simulator -->
-               <div id="modal-02" class="popup-modal slider mfp-hide">
+               <div id="modal-lis" class="popup-modal slider mfp-hide">
 
                   <div class="media">
-                     <img src="images/portfolio/simulator-lis/main_swarm2.png" alt="" />
+                     <img src="images/portfolio/simulator-lis/sim.gif" alt="Simulator simulating 100 drones forming swarms"/>
                   </div>
 
                   <div class="description-box">
                      <h4>Versatile simulator for swarms fo quadcopters</h4>
-                     <p>Improvement of an existing simulator to add functionalities such as swarming.</p>
-                     <p>Semester project done at the Laboratory of Intelligent Systems (LIS) supervised by Ms. Soria and Pr. Floreano. </p>
+                     <p>Semester projet done at the Laboratory of Intelligent Systems (LIS) supervised by Ms. Soria and Pr. Floreano.</p>
+                     <p>The project's goal was to improve and add functionalities to an existing simulator.
+                        The code running in MATLAB's SimuLink was fully converted to object-oriented programming in MATLAB in order to run multiple instances at the same time.
+                        This enabled the introduction of swarm algorithms defined by Reynolds' rules. 
+                        The simulation can be run in either high-fidelity mode with a limited number of drones (&lt;10) or in lightweight where the drone representation is very simplified but supports very large swarms.
+                        Further improvements were added such as a realistic wind model and a user interface to start the simulations and plot relevant data.</p>
                      <p>Final grade of 5.75/6</p>
 
                      <div class="categories">MATLAB, drones</div>
@@ -516,7 +558,7 @@
                      <a>Details (TODO)</a>
                      <a href="#" class="popup-modal-dismiss">Close</a>
                   </div>
-               </div> <!-- /modal-02 -->
+               </div> <!-- /modal-lis -->
 
                <!-- fish -->
                <div id="modal-03" class="popup-modal slider mfp-hide">
@@ -539,6 +581,54 @@
                      <a href="#" class="popup-modal-dismiss">Close</a>
                   </div>
                </div> <!-- /modal-03 -->
+
+               <!-- sim -->
+               <div id="modal-legged" class="popup-modal slider mfp-hide">
+
+                  <div class="media">
+                     <img src="images/portfolio/legged/bob.jpg" alt="Legged control" />
+                  </div>
+
+                  <div class="description-box">
+                     <h4>Control of a 2D legged robot</h4>
+                     <p>Group project done in Pr. Ijspeert's "Legged Robots". The MATLAB code controls a two legged 2D robot with parameters such as step length and robot's speed defined before hand.  </p>
+                     <p>Final grade of 5/6</p>
+
+                     <div class="categories">MATLAB, control</div>
+                  </div>
+
+                  <div class="link-box">
+                     <a>Details (TODO)</a>
+                     <a href="#" class="popup-modal-dismiss">Close</a>
+                  </div>
+               </div> <!-- /modal-legged -->
+
+               <!-- legged -->
+               <div id="modal-sim" class="popup-modal slider mfp-hide">
+
+                  <div class="media">
+                     <img src="images/portfolio/sim/em_0_before.png" alt="Simulation and optimization" />
+                  </div>
+
+                  <div class="description-box">
+                     <h4>Simulation of flux in large events</h4>
+                     <p>Group project done in Pr. Yoo's "Simulation and Optimization of Industrial Applications". 
+                        The project's goal was to simulate and optimize a chosen flux. 
+                        Our team of two chose a flux of people in large event, in particular in Balelec, 
+                        EPFL's largest concert with more that 10 thousand people in one night.</p>
+                     <p>Our project's simulated the flux of people expressing diverse hunger/thirst/music needs. 
+                        The optimization part of the project was done by finding the optimal solution to emergencies such as fire breaking out in random points of the venue.
+                     </p>
+                     <p>Final grade of 6/6</p>
+
+                     <div class="categories">AnyLogic, Java</div>
+                  </div>
+
+                  <div class="link-box">
+                     <a>Details (TODO)</a>
+                     <a href="#" class="popup-modal-dismiss">Close</a>
+                  </div>
+               </div> <!-- /modal-legged -->
 
                <!-- tin174 -->
                <div id="modal-04" class="popup-modal slider mfp-hide">
