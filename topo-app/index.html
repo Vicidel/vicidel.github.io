@@ -8,14 +8,23 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-  <label>Line Width:
-    <input type="range" id="line-width" min="1" max="10" value="3">
-  </label>
-  <label for="dataset-select">Select Dataset:</label>
-  <select id="dataset-select">
-    <option disabled selected>Loading...</option>
-  </select>
-  <div id="map"></div>
+  <div id="auth-container">
+    <h2>Please enter the password to continue:</h2>
+    <input type="password" id="password-input" />
+    <button id="password-submit">Submit</button>
+    <p id="error-msg" style="color:red; display:none;">Incorrect password</p>
+  </div>
+
+  <div id="protected" style="display: none;">
+    <label>Line Width:
+      <input type="range" id="line-width" min="1" max="10" value="3">
+    </label>
+    <label for="dataset-select">Select Dataset:</label>
+    <select id="dataset-select">
+      <option disabled selected>Loading...</option>
+    </select>
+    <div id="map"></div>
+  </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="polyline.js"></script>

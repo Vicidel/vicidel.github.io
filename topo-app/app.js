@@ -1,5 +1,6 @@
 const LOCAL_ROADS = './data/lausanne_roads.geojson';
 const ACTIVITIES_MANIFEST = './data/manifest.json';
+const PASSWORD = 'mapsarecool';
 
 let activeBaseLayer = null;
 let roadLayer;  // Declare it globally if needed outside initMap()
@@ -261,11 +262,33 @@ document.getElementById('line-width').addEventListener('input', e => {
   roadLayer.setStyle({weight: newWeight});
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const authContainer = document.getElementById('auth-container');
+  const protectedContent = document.getElementById('protected');
+  const submitBtn = document.getElementById('password-submit');
+  const input = document.getElementById('password-input');
+  const errorMsg = document.getElementById('error-msg');
+
+  submitBtn.addEventListener('click', () => {
+    const entered = input.value;
+    if (entered === PASSWORD) {
+      authContainer.style.display = 'none';
+      protectedContent.style.display = 'block';
+      setTimeout(() => {
+        if (window._leafletMapInstance) {
+          window._leafletMapInstance.invalidateSize();
+        }
+      }, 100);
+    } else {
+      errorMsg.style.display = 'block';
+    }
+  });
+});
+
 
 (async function main() {
   const map = initMap();
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code');
+  window._leafletMapInstance = map;
 
   await populateDatasetSelector(map);
 
