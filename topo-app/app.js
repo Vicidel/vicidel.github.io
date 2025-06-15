@@ -39,9 +39,13 @@ function initMap() {
       'https://wmts.geo.admin.ch/1.0.0/ch.astra.veloland/default/current/3857/{z}/{x}/{y}.png',
       {opacity: 0.7});
 
+  const wanderwege = L.tileLayer(
+      'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-wanderwege/default/current/3857/{z}/{x}/{y}.png',
+      {opacity: 0.7, attribution: '© Swisstopo', maxZoom: 18});
+
   roadLayer = L.geoJSON(
       null,
-      {pane: 'roadsPane', style: {color: 'purple', weight: 2, opacity: 0.6}});
+      {pane: 'roadsPane', style: {color: 'black', weight: 2, opacity: 0.6}});
 
   // Add to registry
   layerRegistry.topo = topo;
@@ -49,6 +53,7 @@ function initMap() {
   layerRegistry.satellite = satellite;
   layerRegistry.hiking = hiking;
   layerRegistry.cycling = cycling;
+  layerRegistry.wanderwege = wanderwege;
   layerRegistry.stravaCycling = stravaLayers.Cycling;
   layerRegistry.stravaHikingWalking = stravaLayers.HikingWalking;
   layerRegistry.stravaRunning = stravaLayers.Running;
@@ -67,6 +72,7 @@ function initMap() {
   const overlayMaps = {
     'SwissMobile Hiking': hiking,
     'SwissMobile Cycling': cycling,
+    'SwissTLM3D Hiking Trails': wanderwege,
     'Cycling Activities': stravaLayers.Cycling,
     'Hiking/Walking Activities': stravaLayers.HikingWalking,
     'Running Activities': stravaLayers.Running,
@@ -78,7 +84,7 @@ function initMap() {
   const originalUpdate = control._update;
   control._update = function() {
     originalUpdate.call(this);
-    setTimeout(() => addOpacitySliders(control), 0);
+    setTimeout(() => addLayerControls(control), 0);
   };
 
   map.on('baselayerchange', function(e) {
@@ -89,11 +95,9 @@ function initMap() {
   return map;
 }
 
-function addOpacitySliders(control) {
+function addLayerControls(control) {
   const container = control.getContainer();
-
-  // Remove previously injected sliders to avoid duplicates
-  container.querySelectorAll('input[type="range"].opacity-slider')
+  container.querySelectorAll('input.opacity-slider, input.linewidth-slider')
       .forEach(el => el.remove());
 
   const overlays =
@@ -109,6 +113,7 @@ function addOpacitySliders(control) {
     if (text.includes('world')) key = 'world';
     if (text.includes('topographic')) key = 'topo';
     if (text.includes('satellite')) key = 'satellite';
+    if (text.includes('swisstlm3d')) key = 'wanderwege';
     if (text.includes('swissmobile hiking')) key = 'hiking';
     if (text.includes('swissmobile cycling')) key = 'cycling';
     if (text.includes('cycling activities')) key = 'stravaCycling';
@@ -120,23 +125,22 @@ function addOpacitySliders(control) {
     const layer = layerRegistry[key];
     if (!key || !layer) return;
 
-    const slider = document.createElement('input');
-    slider.className = 'opacity-slider';
-    slider.type = 'range';
-    slider.min = 0;
-    slider.max = 1;
-    slider.step = 0.05;
-    slider.value = 1.0;
-    slider.style.marginLeft = '8px';
-    slider.style.width = '70px';
+    // Opacity slider
+    const opacitySlider = document.createElement('input');
+    opacitySlider.className = 'opacity-slider';
+    opacitySlider.type = 'range';
+    opacitySlider.min = 0;
+    opacitySlider.max = 1;
+    opacitySlider.step = 0.05;
+    opacitySlider.value = 1.0;
+    opacitySlider.style.marginLeft = '8px';
+    opacitySlider.style.width = '70px';
+    opacitySlider.title = 'Opacity';
 
-    slider.addEventListener('input', () => {
-      const value = parseFloat(slider.value);
-
+    opacitySlider.addEventListener('input', () => {
+      const value = parseFloat(opacitySlider.value);
       if (typeof layer.setOpacity === 'function') {
-        if (layer === activeBaseLayer) {
-          layer.setOpacity(value);
-        }
+        layer.setOpacity(value);
       } else if (layer.eachLayer) {
         layer.eachLayer(l => {
           if (typeof l.setStyle === 'function') {
@@ -146,7 +150,37 @@ function addOpacitySliders(control) {
       }
     });
 
-    label.appendChild(slider);
+    label.appendChild(opacitySlider);
+
+    // Line width slider (only for strava and roads)
+    const supportsLineWidth = key.startsWith('strava') || key === 'roads';
+    if (supportsLineWidth) {
+      const widthSlider = document.createElement('input');
+      widthSlider.className = 'linewidth-slider';
+      widthSlider.type = 'range';
+      widthSlider.min = 1;
+      widthSlider.max = 10;
+      widthSlider.step = 1;
+      widthSlider.value = 3;
+      widthSlider.style.marginLeft = '6px';
+      widthSlider.style.width = '60px';
+      widthSlider.title = 'Line Width';
+
+      widthSlider.addEventListener('input', () => {
+        const weight = parseInt(widthSlider.value);
+        if (layer.eachLayer) {
+          layer.eachLayer(l => {
+            if (typeof l.setStyle === 'function') {
+              l.setStyle({weight});
+            }
+          });
+        } else if (typeof layer.setStyle === 'function') {
+          layer.setStyle({weight});
+        }
+      });
+
+      label.appendChild(widthSlider);
+    }
   });
 }
 
@@ -178,7 +212,7 @@ function drawActivities(map, activities, filterType = null) {
     const latlngs = coords.map(([lat, lng]) => [lat, lng]);
 
     let group = 'Other';
-    let color = 'orange';
+    let color = 'purple';
     if (activity.type === 'Ride') {
       group = 'Cycling';
       color = 'blue';
@@ -268,18 +302,6 @@ async function populateDatasetSelector(map) {
     console.error('Failed to load or parse manifest.json:', err);
   }
 }
-
-document.getElementById('line-width').addEventListener('input', e => {
-  const newWeight = parseInt(e.target.value);
-  Object.values(stravaLayers).forEach(group => {
-    group.eachLayer(layer => {
-      if (typeof layer.setStyle === 'function') {
-        layer.setStyle({weight: newWeight});
-      }
-    });
-  });
-  roadLayer.setStyle({weight: newWeight});
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   const authContainer = document.getElementById('auth-container');
