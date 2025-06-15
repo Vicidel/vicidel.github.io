@@ -157,8 +157,24 @@ function drawActivities(map, activities, filterType = null) {
   // Group by type
   const groups = {Cycling: [], HikingWalking: [], Running: [], Other: []};
 
+  // Plot them
+  let skipped = 0;
   activities.forEach(activity => {
-    const coords = polyline.decode(activity.map.summary_polyline || '');
+    const polylineStr = activity.map?.summary_polyline;
+    if (!polylineStr || polylineStr.trim() === '') {
+      console.warn(
+          `⛔ Skipping "${activity.name}" (ID: ${activity.id}) – no polyline`);
+      skipped++;
+      return;
+    }
+    let coords;
+    try {
+      coords = polyline.decode(polylineStr);
+    } catch (e) {
+      console.warn(`Skipping bad polyline for activity "${activity.name}"`);
+      return;
+    }
+    if (!coords || coords.length === 0) return;
     const latlngs = coords.map(([lat, lng]) => [lat, lng]);
 
     let group = 'Other';
@@ -191,6 +207,9 @@ function drawActivities(map, activities, filterType = null) {
 
     stravaLayers[group].addLayer(polylineLayer);
   });
+  if (skipped > 0) {
+    console.log(`⚠️ Skipped ${skipped} activities with no geometry`);
+  }
 
   // Add all to map initially
   Object.values(stravaLayers).forEach(layer => layer.addTo(map));
