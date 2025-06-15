@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strava + Swisstopo Map</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <label>Line Width:
+    <input type="range" id="line-width" min="1" max="10" value="3">
+  </label>
+  <label for="dataset-select">Select Dataset:</label>
+  <select id="dataset-select">
+    <option disabled selected>Loading...</option>
+  </select>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="polyline.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
