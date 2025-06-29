@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+h1 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+form, #palette, #trackSelect, button {
+  margin: 10px;
+}
+
+canvas {
+  border: 1px solid #333;
+  background: white;
+  display: block;
+  margin: 10px auto;
+  max-width: 100%;
+}
+
+#palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.palette-color {
+  display: flex;
+  align-items: center;
+  border: 2px solid transparent;
+  margin: 5px;
+  cursor: pointer;
+  padding: 2px 6px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.palette-color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+.palette-color.selected {
+  border-color: black;
+}
+
+button, select, input[type="number"] {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
