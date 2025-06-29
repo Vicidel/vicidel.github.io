@@ -77,7 +77,7 @@ function loadFromFile() {
 function resetGrid() {
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      grid[y][x] = 'wall';
+      grid[y][x] = 'road';
     }
   }
   drawGrid();
@@ -89,7 +89,7 @@ function initGridEditor(width, height) {
   canvas.width = cols * cellSize;
   canvas.height = rows * cellSize;
 
-  grid = Array.from({length: rows}, () => Array(cols).fill('wall'));
+  grid = Array.from({length: rows}, () => Array(cols).fill('road'));
 
   drawPalette();
   drawGrid();

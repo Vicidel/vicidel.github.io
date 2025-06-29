@@ -10,10 +10,20 @@
 
   <button onclick="openEditor()">Open Track Editor</button>
 
+  <label for="playerCount">Players:</label>
+  <select id="playerCount" onchange="setupPlayers()">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
+
+
   <label for="trackSelect">Select Track:</label>
   <select id="trackSelect"></select>
+  <button onclick="restartGame()">Restart Game</button>
 
-  <canvas id="trackCanvas" width="800" height="600"></canvas>
+  <canvas id="trackCanvas"></canvas>
 
   <script src="script.js"></script>
 </body>
