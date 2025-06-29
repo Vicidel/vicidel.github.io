@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strava + Swisstopo Map</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <div id="auth-container">
+    <h2>Please enter the password to continue:</h2>
+    <input type="password" id="password-input" />
+    <button id="password-submit">Submit</button>
+    <p id="error-msg" style="color:red; display:none;">Incorrect password</p>
+  </div>
+
+  <div id="protected" style="display: none;">
+    <label for="dataset-select">Select Dataset:</label>
+    <select id="dataset-select">
+      <option disabled selected>Loading...</option>
+    </select>
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="polyline.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
