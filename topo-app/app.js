@@ -161,7 +161,7 @@ function addLayerControls(control) {
       widthSlider.min = 1;
       widthSlider.max = 10;
       widthSlider.step = 1;
-      widthSlider.value = 3;
+      widthSlider.value = 6;
       widthSlider.style.marginLeft = '6px';
       widthSlider.style.width = '60px';
       widthSlider.title = 'Line Width';
@@ -188,16 +188,12 @@ function drawActivities(map, activities, filterType = null) {
   // Clear old
   Object.values(stravaLayers).forEach(layer => layer.clearLayers());
 
-  // Group by type
-  const groups = {Cycling: [], HikingWalking: [], Running: [], Other: []};
-
   // Plot them
   let skipped = 0;
   activities.forEach(activity => {
     const polylineStr = activity.map?.summary_polyline;
     if (!polylineStr || polylineStr.trim() === '') {
-      console.warn(
-          `⛔ Skipping "${activity.name}" (ID: ${activity.id}) – no polyline`);
+      console.warn(`⛔ Skipping activity with no polyline: "${activity.name}"`);
       skipped++;
       return;
     }
@@ -205,11 +201,18 @@ function drawActivities(map, activities, filterType = null) {
     try {
       coords = polyline.decode(polylineStr);
     } catch (e) {
-      console.warn(`Skipping bad polyline for activity "${activity.name}"`);
+      console.warn(`⛔ Skipping activity with bad polyline: "${activity.name}"`);
+      skipped++;
       return;
     }
-    if (!coords || coords.length === 0) return;
+    if (!coords || coords.length === 0) {
+      console.warn(
+          `⛔ Skipping activity without coordinates: "${activity.name}"`);
+      skipped++;
+      return;
+    }
     const latlngs = coords.map(([lat, lng]) => [lat, lng]);
+    // console.log(`Parsing activity "${activity.name}"`)
 
     let group = 'Other';
     let color = 'purple';
@@ -225,7 +228,7 @@ function drawActivities(map, activities, filterType = null) {
     }
 
     const polylineLayer =
-        L.polyline(latlngs, {color: color, weight: 3, opacity: 0.8});
+        L.polyline(latlngs, {color: color, weight: 8, opacity: 0.8});
 
     const popupContent = `
         <b>${activity.name}</b><br>
@@ -242,7 +245,7 @@ function drawActivities(map, activities, filterType = null) {
     stravaLayers[group].addLayer(polylineLayer);
   });
   if (skipped > 0) {
-    console.log(`⚠️ Skipped ${skipped} activities with no geometry`);
+    console.warn(`⚠️ Skipped ${skipped} activities`);
   }
 
   // Add all to map initially
