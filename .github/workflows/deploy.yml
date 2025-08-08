@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare site dir
+        run: |
+          mkdir -p dist
+          rsync -av --exclude '.git' --exclude '.github' ./ dist/
+
+      - name: Inject commit hash into HTML
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          # Replace all placeholders in all html files
+          find dist -name "*.html" -print0 | xargs -0 sed -i "s/__COMMIT_HASH__/${COMMIT_HASH}/g"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
