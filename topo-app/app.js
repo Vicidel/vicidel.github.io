@@ -231,10 +231,13 @@ function drawActivities(map, activities, filterType = null) {
     const polylineLayer =
         L.polyline(latlngs, {color: color, weight: 5, opacity: 0.7});
 
+    const date = activity.start_date_local.slice(0, 10);
+    const distance = (activity.distance / 1000).toFixed(2);
     const popupContent = `
         <b>${activity.name}</b><br>
+        Date: ${date}<br>
         Type: ${activity.type}<br>
-        Distance: ${activity.distance} m<br>
+        Distance: ${distance} km<br>
         Elevation Gain: ${activity.total_elevation_gain} m<br>
         <a href="https://www.strava.com/activities/${
         activity.id}" target="_blank">
