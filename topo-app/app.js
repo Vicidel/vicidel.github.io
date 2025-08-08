@@ -45,7 +45,7 @@ function initMap() {
 
   roadLayer = L.geoJSON(
       null,
-      {pane: 'roadsPane', style: {color: 'black', weight: 2, opacity: 0.6}});
+      {pane: 'roadsPane', style: {color: 'black', weight: 5, opacity: 0.7}});
 
   // Add to registry
   layerRegistry.topo = topo;
@@ -132,7 +132,7 @@ function addLayerControls(control) {
     opacitySlider.min = 0;
     opacitySlider.max = 1;
     opacitySlider.step = 0.05;
-    opacitySlider.value = 1.0;
+    opacitySlider.value = 0.7;
     opacitySlider.style.marginLeft = '8px';
     opacitySlider.style.width = '70px';
     opacitySlider.title = 'Opacity';
@@ -201,7 +201,8 @@ function drawActivities(map, activities, filterType = null) {
     try {
       coords = polyline.decode(polylineStr);
     } catch (e) {
-      console.warn(`⛔ Skipping activity with bad polyline: "${activity.name}"`);
+      console.warn(
+          `⛔ Skipping activity with bad polyline: "${activity.name}"`);
       skipped++;
       return;
     }
@@ -228,7 +229,7 @@ function drawActivities(map, activities, filterType = null) {
     }
 
     const polylineLayer =
-        L.polyline(latlngs, {color: color, weight: 8, opacity: 0.8});
+        L.polyline(latlngs, {color: color, weight: 5, opacity: 0.7});
 
     const popupContent = `
         <b>${activity.name}</b><br>
