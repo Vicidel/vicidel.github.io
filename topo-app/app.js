@@ -1,5 +1,6 @@
 const LOCAL_ROADS = './data/lausanne_roads.geojson';
 const ACTIVITIES_MANIFEST = './data/manifest.json';
+const BIVOUAC_SPOTS = './data/bivouac_spots.json';
 const PASSWORD = 'mapsarecool';
 
 let activeBaseLayer = null;
@@ -13,6 +14,7 @@ const stravaLayers = {
 };
 const layerRegistry = {};                 // global layer lookup
 let stravaVisibilityInitialized = false;  // show all once on first dataset load
+let bivouacLayer;
 
 let allActivities = [];                           // currently loaded dataset
 let currentDateRange = {start: null, end: null};  // Date objects
@@ -59,7 +61,7 @@ function buildDateRangeControl(minDate, maxDate, onChange) {
       container.title = 'Filter activities by date';
 
       const title = document.createElement('div');
-      title.textContent = 'Date filter';
+      title.textContent = 'Activity date filter';
       title.style.fontWeight = '600';
       title.style.marginBottom = '6px';
       container.appendChild(title);
@@ -462,6 +464,9 @@ function initMap() {
       null,
       {pane: 'roadsPane', style: {color: 'black', weight: 5, opacity: 0.7}});
 
+  // holds all bivouac spot markers
+  bivouacLayer = L.layerGroup();
+
   // Add to registry
   layerRegistry.topo = topo;
   layerRegistry.world = world;
@@ -474,6 +479,7 @@ function initMap() {
   layerRegistry.stravaRunning = stravaLayers.Running;
   layerRegistry.stravaOther = stravaLayers.Other;
   layerRegistry.roads = roadLayer;
+  layerRegistry.bivouac = bivouacLayer;
 
   // Set base map and default
   const baseMaps = {
@@ -493,7 +499,8 @@ function initMap() {
     'Hiking/Walking Activities': stravaLayers.HikingWalking,
     'Running Activities': stravaLayers.Running,
     'Other Activities': stravaLayers.Other,
-    'Lausanne Roads': roadLayer
+    'Lausanne Roads': roadLayer,
+    'Bivouac Spots': bivouacLayer
   };
 
   // Define controls
@@ -509,6 +516,44 @@ function initMap() {
     activeBaseLayer = e.layer;
     console.log('Base layer changed to:', e.name);
   });
+
+
+  // Right-click (context menu) → show Lat/Lon popup + copy button
+  const coordPopup = L.popup({autoClose: true, closeOnClick: false});
+  map.on('contextmenu', (e) => {
+    const {lat, lng} = e.latlng;
+    const latFixed = lat.toFixed(6);
+    const lngFixed = lng.toFixed(6);
+    const html = `
+      <div style="font: 12px/1.3 system-ui, sans-serif;">
+        <b>Lat/Lon (WGS84)</b><br>
+        ${latFixed}, ${lngFixed}<br>
+        <button id="copy-latlng" style="
+          margin-top:6px;padding:4px 8px;border:1px solid #ccc;
+          border-radius:4px;background:#f7f7f7;cursor:pointer;">
+          Copy
+        </button>
+      </div>
+    `;
+    coordPopup.setLatLng(e.latlng).setContent(html).openOn(map);
+    // Wire up the copy button after the popup is in the DOM
+    setTimeout(() => {
+      const btn = document.getElementById('copy-latlng');
+      if (!btn) return;
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(`${latFixed}, ${lngFixed}`);
+          const old = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => (btn.textContent = old), 1000);
+        } catch {
+          // Fallback for older browsers
+          alert(`Lat/Lon: ${latFixed}, ${lngFixed}`);
+        }
+      });
+    }, 0);
+  });
+
 
   return map;
 }
@@ -548,8 +593,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // enable the dataset selector
   await populateDatasetSelector(map);
 
+  // Add roads
   try {
-    // Add roads
     const res2 = await fetch(LOCAL_ROADS);
     console.log('Fetched local roads:', res2);
     if (res2.ok) {
@@ -561,5 +606,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {
     console.log('❌ Fetch failed:', e);
+  }
+
+  // Add bivouac
+  try {
+    const res3 = await fetch(BIVOUAC_SPOTS);
+    if (res3.ok) {
+      const spots = await res3.json();
+      const tentIcon = L.divIcon({
+        html: '<div style="font-size:20px;">⛺</div>',
+        className: '',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+        popupAnchor: [0, -12]
+      });
+      spots.forEach(spot => {
+        const marker =
+            L.marker([spot.lat, spot.lon], {icon: tentIcon}).bindPopup(`
+          <b>${spot.name}</b><br>
+          Date: ${spot.date}
+        `);
+        bivouacLayer.addLayer(marker);
+      });
+      console.log('✅ Loaded bivouac spots');
+    } else {
+      console.error('❌ Failed to load bivouac spots, status:', res3.status);
+    }
+  } catch (e) {
+    console.log('❌ Fetch failed (bivouac spots):', e);
   }
 })();
