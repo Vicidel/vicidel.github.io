@@ -1,5 +1,11 @@
 [
   {
+    "lat": 45.889954,
+    "lon": 7.139393,
+    "name": "Lacs de Fenetre v2",
+    "date": "2025-09-06"
+  },
+  {
     "lat": 46.191865,
     "lon": 7.643451,
     "name": "Tsa du Touno",
@@ -142,5 +148,17 @@
     "lon": 6.959565,
     "name": "Molard",
     "date": "2022-03-11"
+  },
+  {
+    "lat": 45.923522,
+    "lon": 6.818885,
+    "name": "Aiguillette",
+    "date": "2021-08-05"
+  },
+  {
+    "lat": 46.440379,
+    "lon": 7.048363,
+    "name": "Planachaux",
+    "date": "2021-08-03"
   }
 ]
