@@ -1,0 +1,1932 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.633479,
+          46.519372
+        ]
+      },
+      "properties": {
+        "station_id": "8579254",
+        "name": "Lausanne, St-François",
+        "icon": "bus",
+        "duration_minutes": 11,
+        "duration_text": "00d00:11:00",
+        "transfers": 0,
+        "products": [],
+        "section_summaries": [
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:26:00+0200",
+        "arrival": "2025-10-10T08:37:00+0200",
+        "distance_km": 0.44
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.843443,
+          46.463002
+        ]
+      },
+      "properties": {
+        "station_id": "8501200",
+        "name": "Vevey",
+        "icon": "train",
+        "duration_minutes": 14,
+        "duration_text": "00d00:14:00",
+        "transfers": 0,
+        "products": [
+          "RE33"
+        ],
+        "section_summaries": [
+          "RE 33 → Martigny"
+        ],
+        "departure": "2025-10-10T08:31:00+0200",
+        "arrival": "2025-10-10T08:45:00+0200",
+        "distance_km": 17.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.910438,
+          46.435887
+        ]
+      },
+      "properties": {
+        "station_id": "8501300",
+        "name": "Montreux",
+        "icon": "train",
+        "duration_minutes": 19,
+        "duration_text": "00d00:19:00",
+        "transfers": 0,
+        "products": [
+          "RE33"
+        ],
+        "section_summaries": [
+          "RE 33 → Martigny"
+        ],
+        "departure": "2025-10-10T08:31:00+0200",
+        "arrival": "2025-10-10T08:50:00+0200",
+        "distance_km": 23.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.96367,
+          46.316856
+        ]
+      },
+      "properties": {
+        "station_id": "8501400",
+        "name": "Aigle",
+        "icon": "train",
+        "duration_minutes": 31,
+        "duration_text": "00d00:31:00",
+        "transfers": 0,
+        "products": [
+          "RE33"
+        ],
+        "section_summaries": [
+          "RE 33 → Martigny"
+        ],
+        "departure": "2025-10-10T08:31:00+0200",
+        "arrival": "2025-10-10T09:02:00+0200",
+        "distance_km": 33.94
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641953,
+          46.806287
+        ]
+      },
+      "properties": {
+        "station_id": "8504201",
+        "name": "Grandson",
+        "icon": "train",
+        "duration_minutes": 41,
+        "duration_text": "00d00:41:00",
+        "transfers": 0,
+        "products": [
+          "R"
+        ],
+        "section_summaries": [
+          "R 2 → Grandson"
+        ],
+        "departure": "2025-10-10T08:38:00+0200",
+        "arrival": "2025-10-10T09:20:00+0200",
+        "distance_km": 32.21
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.935713,
+          46.996727
+        ]
+      },
+      "properties": {
+        "station_id": "8504221",
+        "name": "Neuchâtel",
+        "icon": "train",
+        "duration_minutes": 47,
+        "duration_text": "00d00:47:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T09:21:00+0200",
+        "distance_km": 58.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.111968,
+          46.232556
+        ]
+      },
+      "properties": {
+        "station_id": "8501026",
+        "name": "Genève-Aéroport",
+        "icon": "train",
+        "duration_minutes": 49,
+        "duration_text": "00d00:49:00",
+        "transfers": 0,
+        "products": [
+          "IC 1"
+        ],
+        "section_summaries": [
+          "IC 1 → Genève-Aéroport"
+        ],
+        "departure": "2025-10-10T08:46:00+0200",
+        "arrival": "2025-10-10T09:35:00+0200",
+        "distance_km": 50.72
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.199744,
+          46.347927
+        ]
+      },
+      "properties": {
+        "station_id": "8588665",
+        "name": "Céligny, gare",
+        "icon": "bus",
+        "duration_minutes": 52,
+        "duration_text": "00d00:52:00",
+        "transfers": 1,
+        "products": [
+          "RE33",
+          "811"
+        ],
+        "section_summaries": [
+          "RE 33 → Annemasse",
+          "Walk 3 min",
+          "B 811 → Coppet, gare"
+        ],
+        "departure": "2025-10-10T08:30:00+0200",
+        "arrival": "2025-10-10T09:22:00+0200",
+        "distance_km": 37.88
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.151052,
+          46.803151
+        ]
+      },
+      "properties": {
+        "station_id": "8504100",
+        "name": "Fribourg/Freiburg",
+        "icon": "train",
+        "duration_minutes": 52,
+        "duration_text": "00d00:52:00",
+        "transfers": 0,
+        "products": [
+          "IR 15"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T09:32:00+0200",
+        "distance_km": 51.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.079108,
+          46.105829
+        ]
+      },
+      "properties": {
+        "station_id": "8501500",
+        "name": "Martigny",
+        "icon": "train",
+        "duration_minutes": 52,
+        "duration_text": "00d00:52:00",
+        "transfers": 0,
+        "products": [
+          "RE33"
+        ],
+        "section_summaries": [
+          "RE 33 → Martigny"
+        ],
+        "departure": "2025-10-10T08:31:00+0200",
+        "arrival": "2025-10-10T09:23:00+0200",
+        "distance_km": 57.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.143032,
+          46.204747
+        ]
+      },
+      "properties": {
+        "station_id": "8587387",
+        "name": "Genève, Bel-Air",
+        "icon": "tram",
+        "duration_minutes": 60,
+        "duration_text": "00d01:00:00",
+        "transfers": 1,
+        "products": [
+          "RE33",
+          "10"
+        ],
+        "section_summaries": [
+          "RE 33 → Annemasse",
+          "Walk 5 min",
+          "B 10 → Genève, Rive"
+        ],
+        "departure": "2025-10-10T08:30:00+0200",
+        "arrival": "2025-10-10T09:30:00+0200",
+        "distance_km": 50.94
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.242918,
+          47.132902
+        ]
+      },
+      "properties": {
+        "station_id": "8504300",
+        "name": "Biel/Bienne",
+        "icon": "train",
+        "duration_minutes": 68,
+        "duration_text": "00d01:08:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T09:42:00+0200",
+        "distance_km": 82.91
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.359183,
+          46.227553
+        ]
+      },
+      "properties": {
+        "station_id": "8501506",
+        "name": "Sion",
+        "icon": "train",
+        "duration_minutes": 68,
+        "duration_text": "00d01:08:00",
+        "transfers": 0,
+        "products": [
+          "IR 90"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T09:56:00+0200",
+        "distance_km": 64.59
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.439136,
+          46.948832
+        ]
+      },
+      "properties": {
+        "station_id": "8507000",
+        "name": "Bern",
+        "icon": "train",
+        "duration_minutes": 76,
+        "duration_text": "00d01:16:00",
+        "transfers": 0,
+        "products": [
+          "IR 15"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T09:56:00+0200",
+        "distance_km": 78.22
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.532824,
+          46.292121
+        ]
+      },
+      "properties": {
+        "station_id": "8501509",
+        "name": "Sierre/Siders",
+        "icon": "train",
+        "duration_minutes": 79,
+        "duration_text": "00d01:19:00",
+        "transfers": 0,
+        "products": [
+          "IR 90"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T10:07:00+0200",
+        "distance_km": 73.66
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.359457,
+          46.235388
+        ]
+      },
+      "properties": {
+        "station_id": "8570732",
+        "name": "Sion, Nord",
+        "icon": "bus",
+        "duration_minutes": 81,
+        "duration_text": "00d01:21:00",
+        "transfers": 1,
+        "products": [
+          "IR 90",
+          "13"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig",
+          "Walk 4 min",
+          "B 13 → Sion, EMS Gravelone"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T10:09:00+0200",
+        "distance_km": 64.18
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.097375,
+          46.806206
+        ]
+      },
+      "properties": {
+        "station_id": "8504605",
+        "name": "Corminboeuf, anc. poste",
+        "icon": "bus",
+        "duration_minutes": 82,
+        "duration_text": "00d01:22:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "8"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "Walk 3 min",
+          "B 8 → Corminboeuf, anc. poste"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T10:02:00+0200",
+        "distance_km": 48.09
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.100622,
+          46.353303
+        ]
+      },
+      "properties": {
+        "station_id": "8517485",
+        "name": "Sur-le-Buis",
+        "icon": "train",
+        "duration_minutes": 83,
+        "duration_text": "00d01:23:00",
+        "transfers": 1,
+        "products": [
+          "IR 90",
+          "R"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig",
+          "R 71 → Les Diablerets"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T10:11:00+0200",
+        "distance_km": 40.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.825994,
+          47.09838
+        ]
+      },
+      "properties": {
+        "station_id": "8504314",
+        "name": "La Chaux-de-Fonds",
+        "icon": "train",
+        "duration_minutes": 83,
+        "duration_text": "00d01:23:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "IR 66"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IR 66 → La Chaux-de-Fonds"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T09:57:00+0200",
+        "distance_km": 66.38
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.447504,
+          46.947842
+        ]
+      },
+      "properties": {
+        "station_id": "8507110",
+        "name": "Bern, Zytglogge",
+        "icon": "tram",
+        "duration_minutes": 86,
+        "duration_text": "00d01:26:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "10"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "Walk 6 min",
+          "B 10 → Ostermundigen, Rüti"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T10:06:00+0200",
+        "distance_km": 78.66
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.254593,
+          46.80885
+        ]
+      },
+      "properties": {
+        "station_id": "8771520",
+        "name": "Vaux-et-Chantegrue",
+        "icon": "bus",
+        "duration_minutes": 95,
+        "duration_text": "00d01:35:00",
+        "transfers": 1,
+        "products": [
+          "R",
+          "P78"
+        ],
+        "section_summaries": [
+          "R 4 → Vallorbe",
+          "B P78 → Frasne"
+        ],
+        "departure": "2025-10-10T15:27:00+0200",
+        "arrival": "2025-10-10T17:02:00+0200",
+        "distance_km": 43.26
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.881455,
+          46.29402
+        ]
+      },
+      "properties": {
+        "station_id": "8501605",
+        "name": "Visp",
+        "icon": "train",
+        "duration_minutes": 95,
+        "duration_text": "00d01:35:00",
+        "transfers": 0,
+        "products": [
+          "IR 90"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T10:23:00+0200",
+        "distance_km": 99.17
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.988089,
+          46.319416
+        ]
+      },
+      "properties": {
+        "station_id": "8501609",
+        "name": "Brig",
+        "icon": "train",
+        "duration_minutes": 104,
+        "duration_text": "00d01:44:00",
+        "transfers": 0,
+        "products": [
+          "IR 90"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T10:32:00+0200",
+        "distance_km": 106.46
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.051645,
+          46.077465
+        ]
+      },
+      "properties": {
+        "station_id": "8570964",
+        "name": "Le Brocard",
+        "icon": "bus",
+        "duration_minutes": 106,
+        "duration_text": "00d01:46:00",
+        "transfers": 1,
+        "products": [
+          "RE33",
+          "201"
+        ],
+        "section_summaries": [
+          "RE 33 → Martigny",
+          "Walk 3 min",
+          "B 201 → Martigny-Croix, croisée",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:31:00+0200",
+        "arrival": "2025-10-10T10:17:00+0200",
+        "distance_km": 58.65
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.97129,
+          47.247457
+        ]
+      },
+      "properties": {
+        "station_id": "8572729",
+        "name": "Reiden, Sonne",
+        "icon": "bus",
+        "duration_minutes": 120,
+        "duration_text": "00d02:00:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "608"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "Walk 4 min",
+          "B 608 → Reiden, Bahnhof"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T10:40:00+0200",
+        "distance_km": 130.41
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.539988,
+          46.787088
+        ]
+      },
+      "properties": {
+        "station_id": "8511364",
+        "name": "Seftigen, Dorfstrasse",
+        "icon": "bus",
+        "duration_minutes": 122,
+        "duration_text": "00d02:02:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "S44"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "S 44 → Thun",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T10:41:00+0200",
+        "distance_km": 75.74
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.100334,
+          47.246779
+        ]
+      },
+      "properties": {
+        "station_id": "8500886",
+        "name": "Les Genevez JU, Les Vacheries",
+        "icon": "bus",
+        "duration_minutes": 137,
+        "duration_text": "00d02:17:00",
+        "transfers": 4,
+        "products": [
+          "IC 5",
+          "IR 66",
+          "R",
+          "R",
+          "33"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IR 66 → La Chaux-de-Fonds",
+          "R 36 → Glovelier",
+          "R 37 → Tavannes",
+          "Walk 1 min",
+          "B 33 → Bassecourt, Jura Centre"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T10:51:00+0200",
+        "distance_km": 88.72
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.869005,
+          46.690492
+        ]
+      },
+      "properties": {
+        "station_id": "8507492",
+        "name": "Interlaken Ost",
+        "icon": "train",
+        "duration_minutes": 139,
+        "duration_text": "00d02:19:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "IC 61"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IC 61 → Interlaken Ost"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T10:59:00+0200",
+        "distance_km": 96.67
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.559327,
+          47.25322
+        ]
+      },
+      "properties": {
+        "station_id": "8500750",
+        "name": "Balm b. Günsberg, Dorf",
+        "icon": "bus",
+        "duration_minutes": 141,
+        "duration_text": "00d02:21:00",
+        "transfers": 2,
+        "products": [
+          "IC 5",
+          "12",
+          "12"
+        ],
+        "section_summaries": [
+          "IC 5 → Zürich HB",
+          "Walk 4 min",
+          "B 12 → Oberbalmberg, Kurhaus",
+          "B 12 → Solothurn, Hauptbahnhof"
+        ],
+        "departure": "2025-10-10T09:04:00+0200",
+        "arrival": "2025-10-10T11:25:00+0200",
+        "distance_km": 108.18
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.310185,
+          47.050174
+        ]
+      },
+      "properties": {
+        "station_id": "8505000",
+        "name": "Luzern",
+        "icon": "train",
+        "duration_minutes": 141,
+        "duration_text": "00d02:21:00",
+        "transfers": 0,
+        "products": [
+          "IR 15"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T11:01:00+0200",
+        "distance_km": 141.07
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.589577,
+          47.547412
+        ]
+      },
+      "properties": {
+        "station_id": "8500010",
+        "name": "Basel SBB",
+        "icon": "train",
+        "duration_minutes": 141,
+        "duration_text": "00d02:21:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "IC 51"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IC 51 → Basel SBB"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T10:55:00+0200",
+        "distance_km": 135.76
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.540502,
+          47.377847
+        ]
+      },
+      "properties": {
+        "station_id": "8503000",
+        "name": "Zürich HB",
+        "icon": "train",
+        "duration_minutes": 142,
+        "duration_text": "00d02:22:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T10:56:00+0200",
+        "distance_km": 173.83
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.533566,
+          46.337944
+        ]
+      },
+      "properties": {
+        "station_id": "8511696",
+        "name": "Aminona, L'Aprily",
+        "icon": "bus",
+        "duration_minutes": 143,
+        "duration_text": "00d02:23:00",
+        "transfers": 3,
+        "products": [
+          "IR 95",
+          "422",
+          "431",
+          "435"
+        ],
+        "section_summaries": [
+          "IR 95 → Brig",
+          "Walk 4 min",
+          "B 422 → Crans-Montana, Barzettes",
+          "B 431 → Aminona",
+          "B 435 → Aminona, Plumachit"
+        ],
+        "departure": "2025-10-10T09:14:00+0200",
+        "arrival": "2025-10-10T11:37:00+0200",
+        "distance_km": 72.12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.981932,
+          46.349069
+        ]
+      },
+      "properties": {
+        "station_id": "8571166",
+        "name": "Naters, Mehlbaum",
+        "icon": "bus",
+        "duration_minutes": 143,
+        "duration_text": "00d02:23:00",
+        "transfers": 1,
+        "products": [
+          "IR 95",
+          "624"
+        ],
+        "section_summaries": [
+          "IR 95 → Brig",
+          "Walk 7 min",
+          "B 624 → Blatten b. Naters, Luftseilbahn"
+        ],
+        "departure": "2025-10-10T09:14:00+0200",
+        "arrival": "2025-10-10T11:37:00+0200",
+        "distance_km": 105.34
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.296238,
+          46.115288
+        ]
+      },
+      "properties": {
+        "station_id": "8301003",
+        "name": "Domodossola (I)",
+        "icon": "train",
+        "duration_minutes": 144,
+        "duration_text": "00d02:24:00",
+        "transfers": 1,
+        "products": [
+          "IR 90",
+          "IR"
+        ],
+        "section_summaries": [
+          "IR 90 → Brig",
+          "IR 003017 → Domodossola (I)"
+        ],
+        "departure": "2025-10-10T08:48:00+0200",
+        "arrival": "2025-10-10T11:12:00+0200",
+        "distance_km": 135.59
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.121605,
+          45.902139
+        ]
+      },
+      "properties": {
+        "station_id": "8774600",
+        "name": "Annecy",
+        "icon": "train",
+        "duration_minutes": 144,
+        "duration_text": "00d02:24:00",
+        "transfers": 2,
+        "products": [
+          "IR 95",
+          "R",
+          "TER"
+        ],
+        "section_summaries": [
+          "IR 95 → Genève-Aéroport",
+          "R L2 → Annemasse",
+          "TER L2 → Annecy"
+        ],
+        "departure": "2025-10-10T08:52:00+0200",
+        "arrival": "2025-10-10T11:16:00+0200",
+        "distance_km": 78.72
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.541741,
+          47.377556
+        ]
+      },
+      "properties": {
+        "station_id": "8587349",
+        "name": "Zürich, Bahnhofquai/HB",
+        "icon": "tram",
+        "duration_minutes": 149,
+        "duration_text": "00d02:29:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:03:00+0200",
+        "distance_km": 173.89
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.587166,
+          47.559197
+        ]
+      },
+      "properties": {
+        "station_id": "8588780",
+        "name": "Basel, Schifflände",
+        "icon": "tram",
+        "duration_minutes": 158,
+        "duration_text": "00d02:38:00",
+        "transfers": 2,
+        "products": [
+          "IC 5",
+          "IC 21",
+          "11"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IC 21 → Basel SBB",
+          "Walk 6 min",
+          "T 11 → Basel, St-Louis Grenze"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:12:00+0200",
+        "distance_km": 136.77
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.562398,
+          47.450379
+        ]
+      },
+      "properties": {
+        "station_id": "8503016",
+        "name": "Zürich Flughafen",
+        "icon": "train",
+        "duration_minutes": 158,
+        "duration_text": "00d02:38:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:12:00+0200",
+        "distance_km": 179.67
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.017105,
+          46.625499
+        ]
+      },
+      "properties": {
+        "station_id": "8505226",
+        "name": "Grindelwald Terminal",
+        "icon": "train",
+        "duration_minutes": 173,
+        "duration_text": "00d02:53:00",
+        "transfers": 2,
+        "products": [
+          "IR 15",
+          "IC 61",
+          "R"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IC 61 → Interlaken Ost",
+          "R 61 → Grindelwald"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T11:33:00+0200",
+        "distance_km": 106.79
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.175519,
+          46.814362
+        ]
+      },
+      "properties": {
+        "station_id": "8508311",
+        "name": "Kaiserstuhl OW",
+        "icon": "train",
+        "duration_minutes": 183,
+        "duration_text": "00d03:03:00",
+        "transfers": 1,
+        "products": [
+          "IR 15",
+          "PE"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "PE LIX → Interlaken Ost"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T11:43:00+0200",
+        "distance_km": 122.55
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.457661,
+          47.243634
+        ]
+      },
+      "properties": {
+        "station_id": "8573181",
+        "name": "Mettmenstetten, Bahnhof",
+        "icon": "bus",
+        "duration_minutes": 187,
+        "duration_text": "00d03:07:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "S5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "S 5 → Zug"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:41:00+0200",
+        "distance_km": 160.77
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.02531,
+          46.82572
+        ]
+      },
+      "properties": {
+        "station_id": "8572881",
+        "name": "Sörenberg, Camping",
+        "icon": "bus",
+        "duration_minutes": 188,
+        "duration_text": "00d03:08:00",
+        "transfers": 2,
+        "products": [
+          "IC 1",
+          "RE7",
+          "241"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "RE 7 → Wolhusen",
+          "Walk 3 min",
+          "B 241 → Sörenberg, Rothornbahn"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T12:25:00+0200",
+        "distance_km": 111.93
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.632748,
+          47.69828
+        ]
+      },
+      "properties": {
+        "station_id": "8503424",
+        "name": "Schaffhausen",
+        "icon": "train",
+        "duration_minutes": 189,
+        "duration_text": "00d03:09:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "RE48"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "RE 48 → Schaffhausen"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:43:00+0200",
+        "distance_km": 200.62
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.714087,
+          45.191238
+        ]
+      },
+      "properties": {
+        "station_id": "8774700",
+        "name": "Grenoble",
+        "icon": "train",
+        "duration_minutes": 196,
+        "duration_text": "00d03:16:00",
+        "transfers": 2,
+        "products": [
+          "IC 1",
+          "TER",
+          "TER"
+        ],
+        "section_summaries": [
+          "IC 1 → Genève-Aéroport",
+          "TER 096558 → Bellegarde-sur-Valserine",
+          "TER K11 → Grenoble"
+        ],
+        "departure": "2025-10-10T08:46:00+0200",
+        "arrival": "2025-10-10T12:02:00+0200",
+        "distance_km": 163.54
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.899451,
+          47.240904
+        ]
+      },
+      "properties": {
+        "station_id": "8578559",
+        "name": "Eschenbach SG, Kählen",
+        "icon": "bus",
+        "duration_minutes": 199,
+        "duration_text": "00d03:19:00",
+        "transfers": 2,
+        "products": [
+          "IC 5",
+          "S15",
+          "631"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "S 15 → Rapperswil SG",
+          "Walk 2 min",
+          "B 631 → Uznach, Bahnhof"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T11:53:00+0200",
+        "distance_km": 190.41
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.158673,
+          45.905716
+        ]
+      },
+      "properties": {
+        "station_id": "1401850",
+        "name": "Annecy-le-Vieux, Petit Port Ch",
+        "icon": "bus",
+        "duration_minutes": 209,
+        "duration_text": "00d03:29:00",
+        "transfers": 1,
+        "products": [
+          "RE33",
+          "TER"
+        ],
+        "section_summaries": [
+          "RE 33 → Annemasse",
+          "TER L2 → Annecy",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:30:00+0200",
+        "arrival": "2025-10-10T11:59:00+0200",
+        "distance_km": 76.99
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.700526,
+          45.906423
+        ]
+      },
+      "properties": {
+        "station_id": "8774407",
+        "name": "Saint-Gervais-les-Bains",
+        "icon": "train",
+        "duration_minutes": 211,
+        "duration_text": "00d03:31:00",
+        "transfers": 1,
+        "products": [
+          "RE33",
+          "C43"
+        ],
+        "section_summaries": [
+          "RE 33 → Annemasse",
+          "B C43 → St-Gervais-les-Bains-Le Fayet",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:30:00+0200",
+        "arrival": "2025-10-10T12:01:00+0200",
+        "distance_km": 68.09
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.448782,
+          46.80254
+        ]
+      },
+      "properties": {
+        "station_id": "8595403",
+        "name": "Engelberg, Fürenalpbahn",
+        "icon": "bus",
+        "duration_minutes": 212,
+        "duration_text": "00d03:32:00",
+        "transfers": 2,
+        "products": [
+          "IR 15",
+          "IR LEX",
+          "300"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IR LEX → Engelberg",
+          "Walk 2 min",
+          "B 300 → Engelberg, Fürenalpbahn"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T12:12:00+0200",
+        "distance_km": 142.46
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.459299,
+          47.697539
+        ]
+      },
+      "properties": {
+        "station_id": "8578389",
+        "name": "Hallau, Gemeindehaus",
+        "icon": "bus",
+        "duration_minutes": 213,
+        "duration_text": "00d03:33:00",
+        "transfers": 3,
+        "products": [
+          "IC 5",
+          "RE48",
+          "S64",
+          "27"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "RE 48 → Schaffhausen",
+          "S 64 → Erzingen (Baden)",
+          "Walk 1 min",
+          "B 27 → Oberhallau, Trottengasse"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T12:07:00+0200",
+        "distance_km": 190.84
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.373784,
+          47.42495
+        ]
+      },
+      "properties": {
+        "station_id": "8589609",
+        "name": "St. Gallen, Poststrasse",
+        "icon": "bus",
+        "duration_minutes": 214,
+        "duration_text": "00d03:34:00",
+        "transfers": 0,
+        "products": [
+          "IC 5"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "Walk 0 min"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T12:08:00+0200",
+        "distance_km": 231.43
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.528939,
+          46.853078
+        ]
+      },
+      "properties": {
+        "station_id": "8509000",
+        "name": "Chur",
+        "icon": "train",
+        "duration_minutes": 215,
+        "duration_text": "00d03:35:00",
+        "transfers": 1,
+        "products": [
+          "IC 1",
+          "IC 3"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "IC 3 → Chur"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T12:52:00+0200",
+        "distance_km": 224.33
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.543409,
+          47.691854
+        ]
+      },
+      "properties": {
+        "station_id": "1100545",
+        "name": "Blansingen, Brunnen",
+        "icon": "bus",
+        "duration_minutes": 227,
+        "duration_text": "00d03:47:00",
+        "transfers": 5,
+        "products": [
+          "IR 15",
+          "IC 6",
+          "ICE",
+          "RB",
+          "15",
+          "305"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IC 6 → Basel SBB",
+          "ICE 000074 → Basel Bad Bf",
+          "RB 27 → Freiburg(Breisgau) Hbf",
+          "Walk 4 min",
+          "B 15 → Welmlingen, Rathaus",
+          "B 305 → Mappach"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T12:27:00+0200",
+        "distance_km": 147.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.029522,
+          46.195425
+        ]
+      },
+      "properties": {
+        "station_id": "8505213",
+        "name": "Bellinzona",
+        "icon": "train",
+        "duration_minutes": 248,
+        "duration_text": "00d04:08:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "IC 2"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IC 2 → Lugano"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T12:42:00+0200",
+        "distance_km": 187.64
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.908906,
+          47.698461
+        ]
+      },
+      "properties": {
+        "station_id": "1101936",
+        "name": "Schienen, Schrotzburg Abzw.",
+        "icon": "bus",
+        "duration_minutes": 261,
+        "duration_text": "00d04:21:00",
+        "transfers": 5,
+        "products": [
+          "IR 15",
+          "IC 81",
+          "825",
+          "33",
+          "200",
+          "201"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IC 81 → Romanshorn",
+          "Walk 3 min",
+          "B 825 → Stein am Rhein, Bahnhof",
+          "B 33 → Singen (Htw), Bahnhof/ZOB",
+          "B 200 → Radolfzell, ZOB",
+          "B 201 → Moos (D), Bohlinger Strasse"
+        ],
+        "departure": "2025-10-10T08:40:00+0200",
+        "arrival": "2025-10-10T13:01:00+0200",
+        "distance_km": 216.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.946993,
+          46.005494
+        ]
+      },
+      "properties": {
+        "station_id": "8505300",
+        "name": "Lugano",
+        "icon": "train",
+        "duration_minutes": 264,
+        "duration_text": "00d04:24:00",
+        "transfers": 1,
+        "products": [
+          "IC 5",
+          "IC 2"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IC 2 → Lugano"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T12:58:00+0200",
+        "distance_km": 187.04
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.346223,
+          46.809698
+        ]
+      },
+      "properties": {
+        "station_id": "8510005",
+        "name": "Bonaduz, Zault/Rheinschlucht",
+        "icon": "bus",
+        "duration_minutes": 271,
+        "duration_text": "00d04:31:00",
+        "transfers": 3,
+        "products": [
+          "IC 1",
+          "IC 3",
+          "RE7",
+          "404"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "IC 3 → Chur",
+          "RE 7 → Disentis/Mustér",
+          "Walk 1 min",
+          "B 404 → Tamins, Unterdorf"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T13:48:00+0200",
+        "distance_km": 209.88
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.010826,
+          47.701753
+        ]
+      },
+      "properties": {
+        "station_id": "1104241",
+        "name": "Herrischried, Wehrhalden",
+        "icon": "bus",
+        "duration_minutes": 271,
+        "duration_text": "00d04:31:00",
+        "transfers": 4,
+        "products": [
+          "IR 15",
+          "IC 61",
+          "S6",
+          "RE3",
+          "7328"
+        ],
+        "section_summaries": [
+          "IR 15 → Luzern",
+          "IC 61 → Basel SBB",
+          "S 6 → Basel Bad Bf",
+          "RE 3 → Friedrichshafen Stadt",
+          "Walk 3 min",
+          "B 7328 → Herrischried, Wehrhalden"
+        ],
+        "departure": "2025-10-10T16:40:00+0200",
+        "arrival": "2025-10-10T21:11:00+0200",
+        "distance_km": 168.21
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.318563,
+          47.256214
+        ]
+      },
+      "properties": {
+        "station_id": "8506787",
+        "name": "Schwägalp, Säntis-Schwebebahn",
+        "icon": "bus",
+        "duration_minutes": 276,
+        "duration_text": "00d04:36:00",
+        "transfers": 3,
+        "products": [
+          "IC 5",
+          "IR 13",
+          "S23",
+          "791"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IR 13 → St. Gallen",
+          "S 23 → Wasserauen",
+          "Walk 1 min",
+          "B 791 → Schwägalp, Säntis-Schwebebahn"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T13:10:00+0200",
+        "distance_km": 220.29
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.820726,
+          46.791465
+        ]
+      },
+      "properties": {
+        "station_id": "8509073",
+        "name": "Davos Platz",
+        "icon": "train",
+        "duration_minutes": 286,
+        "duration_text": "00d04:46:00",
+        "transfers": 2,
+        "products": [
+          "IC 1",
+          "IC 3",
+          "RE24"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "IC 3 → Chur",
+          "RE 24 → Davos Platz"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T14:03:00+0200",
+        "distance_km": 245.49
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.62335,
+          47.699125
+        ]
+      },
+      "properties": {
+        "station_id": "8718531",
+        "name": "Ronchamp",
+        "icon": "train",
+        "duration_minutes": 292,
+        "duration_text": "00d04:52:00",
+        "transfers": 3,
+        "products": [
+          "IC 5",
+          "RE56",
+          "TER",
+          "TER"
+        ],
+        "section_summaries": [
+          "IC 5 → St. Gallen",
+          "RE 56 → Delle",
+          "TER C5 → Belfort",
+          "TER P45 → Vesoul"
+        ],
+        "departure": "2025-10-10T12:04:00+0200",
+        "arrival": "2025-10-10T16:56:00+0200",
+        "distance_km": 131.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.679332,
+          46.783285
+        ]
+      },
+      "properties": {
+        "station_id": "8509157",
+        "name": "Arosa",
+        "icon": "train",
+        "duration_minutes": 292,
+        "duration_text": "00d04:52:00",
+        "transfers": 2,
+        "products": [
+          "IC 1",
+          "IC 3",
+          "R"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "IC 3 → Chur",
+          "R 16 → Arosa"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T14:09:00+0200",
+        "distance_km": 234.69
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.918354,
+          46.370383
+        ]
+      },
+      "properties": {
+        "station_id": "8582965",
+        "name": "Personico, Piazza",
+        "icon": "bus",
+        "duration_minutes": 294,
+        "duration_text": "00d04:54:00",
+        "transfers": 3,
+        "products": [
+          "IC 5",
+          "IC 2",
+          "IR 46",
+          "125"
+        ],
+        "section_summaries": [
+          "IC 5 → Rorschach",
+          "IC 2 → Lugano",
+          "IR 46 → Zürich HB",
+          "Walk 2 min",
+          "B 125 → Personico, Piazza"
+        ],
+        "departure": "2025-10-10T08:34:00+0200",
+        "arrival": "2025-10-10T13:28:00+0200",
+        "distance_km": 176.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.818079,
+          46.791178
+        ]
+      },
+      "properties": {
+        "station_id": "8592606",
+        "name": "Davos Platz, Tanzbühl",
+        "icon": "bus",
+        "duration_minutes": 294,
+        "duration_text": "00d04:54:00",
+        "transfers": 3,
+        "products": [
+          "IC 1",
+          "IC 3",
+          "RE24",
+          "301"
+        ],
+        "section_summaries": [
+          "IC 1 → St. Gallen",
+          "IC 3 → Chur",
+          "RE 24 → Davos Platz",
+          "Walk 2 min",
+          "B 301 → Davos Glaris, Ortolfi"
+        ],
+        "departure": "2025-10-10T09:17:00+0200",
+        "arrival": "2025-10-10T14:11:00+0200",
+        "distance_km": 245.29
+      }
+    }
+  ],
+  "metadata": {
+    "source": "transport.opendata.ch",
+    "generated_at": "2025-10-10T06:27:52.960541+00:00",
+    "origin_station": "Lausanne",
+    "max_travel_minutes": 300,
+    "sampled_station_count": 86,
+    "retained_feature_count": 64
+  }
+}
