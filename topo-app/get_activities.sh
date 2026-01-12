@@ -55,9 +55,9 @@ while true; do
 done
 
 # Save to file
-OUTPUT="data/activities_${CLIENT_ID}.json"
+OUTPUT="$(dirname "${BASH_SOURCE[0]}")/data/activities_${CLIENT_ID}.json"
 echo "$ACTIVITIES" | jq '.' > "$OUTPUT"
 echo "✅ Saved all activities to $OUTPUT"
 
 # Add to manifest
-ls data/activities_*.json | jq -R -s -c 'split("\n")[:-1]' > data/manifest.json
+ls $(dirname "${BASH_SOURCE[0]}")/data/activities_*.json | jq -R -s -c 'split("\n")[:-1]' > data/manifest.json
