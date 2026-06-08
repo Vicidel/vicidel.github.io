@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Racetrack Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Racetrack Game</h1>
+
+  <button onclick="openEditor()">Open Track Editor</button>
+
+  <label for="playerCount">Players:</label>
+  <select id="playerCount" onchange="setupPlayers()">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
+
+
+  <label for="trackSelect">Select Track:</label>
+  <select id="trackSelect"></select>
+  <button onclick="restartGame()">Restart Game</button>
+
+  <canvas id="trackCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
