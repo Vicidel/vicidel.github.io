@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Precompute public-transport reachability from fixed origins using Swiss GTFS.
 
-Stdlib only. For each date, origin and departure slot (every --step min inside
---window) it runs a Connection Scan Algorithm (CSA) with a bounded number of
-changes and stores, per station, the travel time (incl. waiting) with 0..K changes.
+Stdlib only. Per date and origin it runs a forward profile Connection Scan Algorithm (CSA)
+with a bounded number of changes. Then for each departure slot (every --step
+min inside --window) and station it stores the travel time of the next journey
+(door departure -> arrival, waiting excluded) with 0..K changes.
 
 Usage:
   python3 build_reachability.py --gtfs /path/to/gtfs.zip            # next 2 weekends
@@ -13,13 +14,16 @@ Output (in ../data):
   manifest.json                       dates, slots, origins, ...
   stations.json                       [[id, name, lat, lon, mode_bits], ...]
   reach_<origin>_<YYYYMMDD>.bin.gz    uint8 minutes (255 = unreachable),
-                                      layout [slot][changes 0..K][station]
+                                      layout [layer][slot][changes 0..K][station]
+                                      layer 0 = travel time (departure -> arrival)
+                                      layer 1 = wait (selected time -> departure)
 """
 import argparse
 import bisect
 import csv
 import glob
 import gzip
+import heapq
 import io
 import json
 import math
@@ -234,49 +238,86 @@ def footpaths(stations):
 
 # ------------------------------------------------------------------- CSA --- #
 
-def csa(conns, n_st, fp, sources, t0, max_dur):
-    """sources: [(station, time)]. Returns arr[r][s], r = number of rides used."""
-    INF = 1 << 30
+def profile(conns, n_st, fp, origin_off, s_min, s_max, max_dur):
+    """Forward profile CSA from one origin.
+
+    origin_off: station -> seconds from the door (walk). A journey's "door
+    departure" sd is the latest time you can leave home and still catch it.
+    Returns labels[v] = [(sd, arrival, rides)] for every station reached, with
+    door departures in [s_min, s_max] and arrival - sd <= max_dur.
+    """
+    NEG = -(1 << 30)
     deps, arrs, frm, to, trp = conns
     R = MAX_CHANGES + 1
-    arr = [[INF] * n_st for _ in range(R + 1)]
-    trip_r = {}
+    # avail[r][s]: latest door departure among journeys with <= r rides that are
+    # at s (incl. transfer buffer) by the current scan time
+    avail = [[NEG] * n_st for _ in range(R + 1)]
+    trip_best = {}   # trip -> [latest door departure per rides count]
+    heap = []        # pending labels: (usable_from, station, rides, sd)
+    labels = {}
+    push, pop = heapq.heappush, heapq.heappop
 
-    def improve(s, r, t):
-        for rr in range(r, R + 1):
-            if arr[rr][s] > t:
-                arr[rr][s] = t
-            else:
-                break
+    def add(v, q, sd, a):
+        if avail[q][v] >= sd:   # an earlier-arriving journey with later departure exists
+            return
+        push(heap, (a + TRANSFER_BUFFER_S, v, q, sd))
+        labels.setdefault(v, []).append((sd, a, q))
 
-    for s, t in sources:
-        improve(s, 0, t)
-        for w, ws in fp[s]:
-            improve(w, 0, t + ws)
-
-    t_end = t0 + max_dur
-    i, n = bisect.bisect_left(deps, t0), len(deps)
+    t_end = s_max + max_dur
+    i, n = bisect.bisect_left(deps, s_min), len(deps)
     while i < n:
         d = deps[i]
         if d > t_end:
             break
-        t, u = trp[i], frm[i]
-        best = trip_r.get(t, INF)
-        for r in range(0, min(best - 1, R)):
-            if arr[r][u] + (TRANSFER_BUFFER_S if r else 0) <= d:
-                best = r + 1
-                trip_r[t] = best
-                break
-        if best <= R:
-            a2 = arrs[i]
-            if a2 <= t_end:
-                v = to[i]
-                if arr[best][v] > a2:
-                    improve(v, best, a2)
+        while heap and heap[0][0] <= d:
+            _, v, q, sd = pop(heap)
+            for r in range(q, R + 1):
+                if avail[r][v] < sd:
+                    avail[r][v] = sd
+                else:
+                    break
+        u, t = frm[i], trp[i]
+        tb = trip_best.get(t)
+        off = origin_off.get(u)
+        for r in range(R):
+            cand = avail[r][u]
+            if r == 0 and off is not None:
+                sdep = d - off
+                if s_min <= sdep <= s_max and sdep > cand:
+                    cand = sdep
+            if cand == NEG:
+                continue
+            if tb is None:
+                tb = trip_best[t] = [NEG] * (R + 1)
+            if cand > tb[r + 1]:
+                tb[r + 1] = cand
+        if tb is not None:
+            a2, v = arrs[i], to[i]
+            prev = NEG
+            for q in range(1, R + 1):
+                sd = tb[q]
+                if sd <= prev:      # same trip reachable with fewer rides, later
+                    continue
+                prev = sd
+                if a2 - sd <= max_dur:
+                    add(v, q, sd, a2)
                     for w, ws in fp[v]:
-                        improve(w, best, a2 + ws)
+                        if a2 + ws - sd <= max_dur:
+                            add(w, q, sd, a2 + ws)
         i += 1
-    return arr
+    return labels
+
+
+def pareto(labels):
+    """[(sd, a)] -> (sds, arrs) sorted by sd, keeping only non-dominated
+    (no other journey leaves later and arrives no later)."""
+    out, best_a = [], 1 << 30
+    for sd, a in sorted(labels, key=lambda x: (-x[0], x[1])):
+        if a < best_a:
+            out.append((sd, a))
+            best_a = a
+    out.reverse()
+    return [x[0] for x in out], [x[1] for x in out]
 
 # ------------------------------------------------------------------ main --- #
 
@@ -284,21 +325,46 @@ G = {}  # shared with forked workers
 
 
 def run_day(di):
-    """Compute all origins x slots for one date; write one .bin.gz per origin."""
+    """Compute all origins x slots for one date; write one .bin.gz per origin.
+
+    Per (slot t0, changes k, station): take the journey leaving the door at or
+    after t0 (within max_wait) that arrives first; store its travel time
+    (arrival - door departure) and the wait (door departure - t0), in minutes.
+    """
     days, conns, trip_days = G['days'], G['conns'], G['trip_days']
     day = days[di]
     keep = [i for i, t in enumerate(conns[4]) if di in trip_days[t]]
     dconns = tuple([col[i] for i in keep] for col in conns)
-    n_st, served, K = len(G['stations']), G['served'], MAX_CHANGES
+    served, K, slots, max_wait = G['served'], MAX_CHANGES, G['slots'], G['max_wait']
+    S, N = len(slots), len(served)
     for key, origin_st in G['origin_st'].items():
-        buf = bytearray()
-        for t0 in G['slots']:
-            arr = csa(dconns, n_st, G['fp'], [(s, t0 + w) for s, w in origin_st], t0, G['max_dur'])
+        off = {}
+        for s, w in origin_st:
+            for x, ws in [(s, 0)] + G['fp'][s]:
+                off[x] = min(off.get(x, 1 << 30), w + ws)
+        labels = profile(dconns, len(G['stations']), G['fp'], off,
+                         slots[0], slots[-1] + max_wait, G['max_dur'])
+        dur = bytearray([NONE]) * (S * (K + 1) * N)
+        wait = bytearray([NONE]) * (S * (K + 1) * N)
+        for col, s in enumerate(served):
+            if s in off:      # origin area: 0 min
+                for j in range(S * (K + 1)):
+                    dur[j * N + col] = wait[j * N + col] = 0
+            lab = labels.get(s)
+            if not lab:
+                continue
             for k in range(K + 1):
-                row = arr[k + 1]
-                for s in served:
-                    m = (row[s] - t0 + 30) // 60
-                    buf.append(m if m <= G['max_min'] else NONE)
+                sds, arrs = pareto([(sd, a) for sd, a, q in lab if q <= k + 1])
+                if not sds:
+                    continue
+                for si, t0 in enumerate(slots):
+                    j = bisect.bisect_left(sds, t0)
+                    if j < len(sds) and sds[j] - t0 <= max_wait:
+                        idx = (si * (K + 1) + k) * N + col
+                        if s not in off:
+                            dur[idx] = min(NONE - 1, (arrs[j] - sds[j] + 30) // 60)
+                            wait[idx] = (sds[j] - t0 + 30) // 60
+        buf = dur + wait
         path = os.path.join(G['out'], f'reach_{key}_{day.strftime("%Y%m%d")}.bin.gz')
         with gzip.open(path, 'wb', compresslevel=9) as f:
             f.write(bytes(buf))
@@ -311,7 +377,9 @@ def main():
     ap.add_argument('--dates', help='YYYY-MM-DD,... (default: next 2 weekends)')
     ap.add_argument('--window', default='06:00-12:00', help='departure slots range, HH:MM-HH:MM')
     ap.add_argument('--step', type=int, default=10, help='minutes between departure slots')
-    ap.add_argument('--max-hours', type=float, default=4)
+    ap.add_argument('--max-hours', type=float, default=4, help='max travel time')
+    ap.add_argument('--max-wait', type=int, default=60,
+                    help='max minutes between selected time and actual departure')
     ap.add_argument('--modes', default='rail,bus,metro,tram,boat,cable')
     ap.add_argument('--jobs', type=int, default=min(4, os.cpu_count() or 1))
     ap.add_argument('--out', default=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
@@ -351,7 +419,7 @@ def main():
 
     G.update(days=days, conns=conns, trip_days=trip_days, stations=stations, fp=fp,
              served=served, origin_st=origin_st, slots=list(range(w0, w1 + 1, a.step * 60)),
-             max_dur=max_dur, max_min=max_dur // 60, out=out)
+             max_dur=max_dur, max_wait=a.max_wait * 60, out=out)
     log(f'computing {len(days)} dates x {len(ORIGINS)} origins x {len(G["slots"])} slots '
         f'with {a.jobs} jobs...')
     if a.jobs > 1 and len(days) > 1:
@@ -371,6 +439,7 @@ def main():
         'dates': [d.isoformat() for d in days],
         'slots': [hhmm(t) for t in G['slots']],
         'max_changes': MAX_CHANGES, 'max_minutes': max_dur // 60, 'none': NONE,
+        'max_wait': a.max_wait, 'layers': ['duration', 'wait'],
         'mode_bits': MODE_BITS, 'n_stations': len(served),
         'origins': {k: {'label': v['label'], 'stops': [n for n, _ in v['stops']]}
                     for k, v in ORIGINS.items()},

@@ -1,25 +1,26 @@
 // Transit Reach: where can I go from Lausanne within X minutes by train/bus?
-// Data: data/reach_<origin>.json built by scripts/build_reachability.py
+// Data built by scripts/build_reachability.py:
+//   data/manifest.json, data/stations.json, data/reach_<origin>_<YYYYMMDD>.bin.gz
 
 const WMTS = (layer, ext = 'png') =>
   `https://wmts.geo.admin.ch/1.0.0/${layer}/default/current/3857/{z}/{x}/{y}.${ext}`;
 
 const CHANGE_LABELS = ['Direct', '1', '2', '3', '4'];
 const MODES = [  // bit values must match MODE_BITS in the python script
-  {key: 'rail', bit: 1, label: 'Train', on: true},
-  {key: 'bus', bit: 2, label: 'Bus', on: true},
-  {key: 'metro', bit: 4, label: 'Metro', on: true},
-  {key: 'tram', bit: 8, label: 'Tram', on: true},
-  {key: 'boat', bit: 16, label: 'Boat', on: true},
-  {key: 'cable', bit: 32, label: 'Cable car', on: true},
+  {bit: 1, label: 'Train'}, {bit: 2, label: 'Bus'}, {bit: 4, label: 'Metro'},
+  {bit: 8, label: 'Tram'}, {bit: 16, label: 'Boat'}, {bit: 32, label: 'Cable car'},
 ];
+const DEFAULT_SLOT = '08:00';
 
 const state = {
-  origin: 'gare',
+  origin: null, date: null, slot: 0,
+  minTime: 0,
   maxTime: 90,
   changes: new Set([0, 1, 2]),
-  modes: new Set(MODES.filter(m => m.on).map(m => m.bit)),
-  data: {},      // origin -> {meta, stops}
+  modes: new Set(MODES.map(m => m.bit)),
+  manifest: null,
+  stations: null,    // [[id, name, lat, lon, modeBits], ...]
+  reach: {},         // "origin|date" -> Uint8Array [slot][k][station]
 };
 
 // ------------------------------------------------------------------ map --- //
@@ -57,10 +58,40 @@ const panel = document.getElementById('panel');
 L.DomEvent.disableClickPropagation(panel);
 L.DomEvent.disableScrollPropagation(panel);
 
-// ------------------------------------------------------------- controls --- //
+// --------------------------------------------------------------- helpers --- //
+
+const $ = id => document.getElementById(id);
+const setStatus = txt => { $('status').textContent = txt; };
+const fmtMin = m => m < 60 ? `${m} min` : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`;
+const toMin = hhmm => { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; };
+const fromMin = m => `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+const isoToday = () => new Date().toLocaleDateString('sv');  // YYYY-MM-DD, local time
+
+function colorFor(minutes, min, max) {
+  const f = max > min ? Math.min(1, Math.max(0, (minutes - min) / (max - min))) : 0;
+  return `hsl(${Math.round(120 * (1 - f))}, 85%, 42%)`;
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  const label = d.toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short'});
+  return iso === isoToday() ? `Today (${label})` : label;
+}
+
+// Station id for transport.opendata.ch (Swiss stop numbers are 85xxxxx)
+function apiId(st) {
+  const m = String(st[0]).match(/85\d{5}/);
+  return m ? m[0] : st[1];
+}
+
+function fillSelect(el, items, value) {
+  el.innerHTML = '';
+  items.forEach(([v, label]) => el.add(new Option(label, v)));
+  el.value = value;
+}
 
 function buildChecks(containerId, items, set, onChange) {
-  const el = document.getElementById(containerId);
+  const el = $(containerId);
   el.innerHTML = '';
   items.forEach(({value, label}) => {
     const lbl = document.createElement('label');
@@ -76,108 +107,157 @@ function buildChecks(containerId, items, set, onChange) {
   });
 }
 
-function buildChangeChecks(maxChanges) {
-  const items = CHANGE_LABELS.slice(0, maxChanges + 1).map((label, value) => ({value, label}));
-  buildChecks('changes', items, state.changes, render);
+// ----------------------------------------------------------------- data --- //
+
+async function fetchJson(url) {
+  const res = await fetch(url, {cache: 'no-cache'});
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  return res.json();
 }
 
-buildChecks('modes', MODES.map(m => ({value: m.bit, label: m.label})), state.modes, render);
-
-const slider = document.getElementById('maxtime');
-const sliderLbl = document.getElementById('maxtime-lbl');
-slider.value = state.maxTime;
-slider.addEventListener('input', () => { state.maxTime = +slider.value; render(); });
-
-const originSel = document.getElementById('origin');
-originSel.value = state.origin;
-originSel.addEventListener('change', () => { state.origin = originSel.value; loadOrigin(); });
-
-// --------------------------------------------------------------- helpers --- //
-
-const fmtMin = m => m < 60 ? `${m} min` : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`;
-
-function colorFor(minutes, max) {
-  const f = Math.min(1, minutes / max);
-  return `hsl(${Math.round(120 * (1 - f))}, 85%, 42%)`;
+async function fetchGzBytes(url) {
+  const res = await fetch(url, {cache: 'no-cache'});
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  const buf = new Uint8Array(await res.arrayBuffer());
+  // Some servers already decode it (Content-Encoding: gzip); gzip magic = 1f 8b
+  if (buf[0] !== 0x1f || buf[1] !== 0x8b) return buf;
+  const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
 }
 
-// Station id for transport.opendata.ch (Swiss stop numbers are 85xxxxx)
-function apiId(stop) {
-  const m = String(stop.id).match(/85\d{5}/);
-  return m ? m[0] : stop.n;
+function currentReach() {
+  return state.reach[`${state.origin}|${state.date}`];
 }
 
-// Smallest number of changes that fits in the time budget (or null)
-function minChanges(stop) {
-  for (let k = 0; k < stop.d.length; k++)
-    if (stop.d[k] != null && stop.d[k] <= state.maxTime) return k;
-  return null;
+async function loadReach() {
+  const key = `${state.origin}|${state.date}`;
+  if (state.reach[key]) return render();
+  setStatus('Loading...');
+  try {
+    const ymd = state.date.replaceAll('-', '');
+    state.reach[key] = await fetchGzBytes(`data/reach_${state.origin}_${ymd}.bin.gz`);
+  } catch (e) {
+    setStatus(`No data: ${e.message}. Run scripts/build_reachability.py.`);
+    reachLayer.clearLayers();
+    return;
+  }
+  render();
 }
 
-function renderLegend() {
-  const el = document.getElementById('legend');
-  el.style.background = 'linear-gradient(to right, hsl(120,85%,42%), hsl(60,85%,42%), hsl(0,85%,42%))';
-  el.innerHTML = `<span style="left:0">0</span>
-    <span style="left:45%">${fmtMin(Math.round(state.maxTime / 2))}</span>
-    <span style="right:0">${fmtMin(state.maxTime)}</span>`;
+// Binary layout: [layer][slot][changes k][station], layer 0 = travel time
+// (departure -> arrival), layer 1 = wait (selected time -> departure). Minutes.
+function valueAt(reach, layer, k, i) {
+  const m = state.manifest;
+  const N = m.n_stations, K1 = m.max_changes + 1;
+  return reach[((layer * m.slots.length + state.slot) * K1 + k) * N + i];
 }
+const minutesAt = (reach, k, i) => valueAt(reach, 0, k, i);
+const waitAt = (reach, k, i) => valueAt(reach, 1, k, i);
 
 // --------------------------------------------------------------- render --- //
 
+function renderLegend() {
+  const el = $('legend');
+  el.style.background = 'linear-gradient(to right, hsl(120,85%,42%), hsl(60,85%,42%), hsl(0,85%,42%))';
+  el.innerHTML = `<span style="left:0">${fmtMin(state.minTime)}</span>
+    <span style="left:45%">${fmtMin(Math.round((state.minTime + state.maxTime) / 2))}</span>
+    <span style="right:0">${fmtMin(state.maxTime)}</span>`;
+}
+
 function render() {
-  sliderLbl.textContent = fmtMin(state.maxTime);
+  $('mintime-lbl').textContent = fmtMin(state.minTime);
+  $('maxtime-lbl').textContent = fmtMin(state.maxTime);
   renderLegend();
   reachLayer.clearLayers();
-  const data = state.data[state.origin];
-  if (!data) return;
+  const reach = currentReach();
+  if (!reach) return;
 
+  const NONE = state.manifest.none, K = state.manifest.max_changes;
   const modeMask = [...state.modes].reduce((a, b) => a | b, 0);
   let count = 0;
-  for (const s of data.stops) {
-    if (!(s.m & modeMask)) continue;
-    const k = minChanges(s);
-    if (k == null || !state.changes.has(k)) continue;
-    const isRail = s.m & 1;
-    L.circleMarker([s.lat, s.lon], {
+  state.stations.forEach((st, i) => {
+    if (!(st[4] & modeMask)) return;
+    // smallest number of changes that fits in the time budget
+    let k = 0, d = NONE;
+    for (; k <= K; k++) {
+      d = minutesAt(reach, k, i);
+      if (d !== NONE && d <= state.maxTime) break;
+    }
+    if (k > K || !state.changes.has(k)) return;
+    // min time: hide places that are closer than that (fastest route, any changes)
+    if (state.minTime > 0) {
+      let fastest = NONE;
+      for (let kk = 0; kk <= K; kk++) fastest = Math.min(fastest, minutesAt(reach, kk, i));
+      if (fastest < state.minTime) return;
+    }
+    const isRail = st[4] & 1;
+    L.circleMarker([st[2], st[3]], {
       radius: isRail ? 6 : 4,
       weight: isRail ? 1.5 : 0.5,
       color: '#222',
-      fillColor: colorFor(s.d[k], state.maxTime),
+      fillColor: colorFor(d, state.minTime, state.maxTime),
       fillOpacity: 0.9,
-    }).bindPopup(() => popupHtml(s, data.meta), {maxWidth: 320})
-      .on('popupopen', e => attachConnButton(e.popup, s, data.meta))
+    }).bindPopup(() => popupHtml(st, i), {maxWidth: 340})
+      .on('popupopen', e => attachConnButton(e.popup, st))
       .addTo(reachLayer);
     count++;
-  }
-  const m = data.meta;
-  document.getElementById('status').textContent =
-    `${count} stops · ${m.date}, dep ${m.window} (every ${m.step_min} min)`;
+  });
+  setStatus(`${count} stops · leaving ${fmtDate(state.date)} from ${slotLabel()} ` +
+    `(within ${state.manifest.max_wait ?? 60} min)`);
 }
 
-function popupHtml(s, meta) {
-  const rows = s.d.map((d, k) => d == null ? '' :
-    `<tr><td>${k === 0 ? 'Direct' : k + ' change' + (k > 1 ? 's' : '')}</td>
-     <td><b>${fmtMin(d)}</b></td><td>dep ${s.t[k]}</td></tr>`).join('');
-  const search = `https://search.ch/fahrplan/?from=${encodeURIComponent(meta.origin_stops[0])}&to=${encodeURIComponent(s.n)}`;
-  return `<div class="popup"><b>${s.n}</b>
-    <table><tr><th>Changes</th><th>Fastest</th><th>Sample</th></tr>${rows}</table>
-    <button class="conn-btn">Next connections</button>
-    <a href="${search}" target="_blank" rel="noopener">search.ch</a>
+const slotLabel = () => state.manifest.slots[state.slot];
+
+function popupHtml(st, i) {
+  const reach = currentReach();
+  const {none: NONE, max_changes: K} = state.manifest;
+  const t0 = toMin(slotLabel());
+  let rows = '', prev = '';
+  for (let k = 0; k <= K; k++) {
+    const d = minutesAt(reach, k, i);
+    if (d === NONE) continue;
+    const dep = t0 + waitAt(reach, k, i), arr = dep + d;
+    if (`${dep}|${arr}` === prev) continue;  // same journey as with fewer changes
+    prev = `${dep}|${arr}`;
+    rows += `<tr><td>${k === 0 ? 'Direct' : k + ' change' + (k > 1 ? 's' : '')}</td>
+      <td><b>${fmtMin(d)}</b></td><td>${fromMin(dep)} → ${fromMin(arr)}</td></tr>`;
+  }
+  const from = state.manifest.origins[state.origin].stops[0];
+  return `<div class="popup"><b>${st[1]}</b>
+    <div>Next journeys after ${slotLabel()} from ${from} (leave home → arrive)</div>
+    <table><tr><th>Changes</th><th>Travel</th><th>Times</th></tr>${rows}</table>
+    <button class="conn-btn">Live connections</button>
+    <a href="${sbbUrl(from, st)}" target="_blank" rel="noopener">SBB</a>
     <div class="conns"></div></div>`;
 }
 
-function attachConnButton(popup, s, meta) {
+// sbb.ch timetable deep link, e.g.
+// ?stops=Lausanne_I8501120~Bercher_I8501177&date="2026-11-21"&time=15_10&moment=dep
+function sbbUrl(fromName, toSt) {
+  const fromSt = state.stations.find(s => s[1] === fromName);
+  const stop = (s, name) => {
+    const id = s && String(s[0]).match(/85\d{5}/);
+    return id ? `${s[1]}_I${id[0]}` : name;
+  };
+  const q = new URLSearchParams({
+    stops: `${stop(fromSt, fromName)}~${stop(toSt, toSt[1])}`,
+    date: JSON.stringify(state.date),
+    time: slotLabel().replace(':', '_'),
+    moment: 'dep',
+  });
+  return `https://www.sbb.ch/en?${q}`;
+}
+
+function attachConnButton(popup, st) {
   const root = popup.getElement();
-  const btn = root.querySelector('.conn-btn');
   const out = root.querySelector('.conns');
-  btn.onclick = async () => {
+  root.querySelector('.conn-btn').onclick = async () => {
     out.textContent = 'Loading...';
     try {
-      const from = meta.origin_stops[0];
+      const from = state.manifest.origins[state.origin].stops[0];
       const url = `https://transport.opendata.ch/v1/connections?from=${encodeURIComponent(from)}` +
-        `&to=${encodeURIComponent(apiId(s))}&limit=4`;
-      const res = await fetch(url);
-      const json = await res.json();
+        `&to=${encodeURIComponent(apiId(st))}&date=${state.date}&time=${slotLabel()}&limit=4`;
+      const json = await fetchJson(url);
       out.innerHTML = (json.connections || []).map(c => {
         const dep = c.from.departure.slice(11, 16);
         const arr = c.to.arrival.slice(11, 16);
@@ -190,24 +270,67 @@ function attachConnButton(popup, s, meta) {
   };
 }
 
-// ----------------------------------------------------------------- load --- //
+// ----------------------------------------------------------------- init --- //
 
-async function loadOrigin() {
-  const key = state.origin;
-  if (!state.data[key]) {
-    document.getElementById('status').textContent = 'Loading...';
-    try {
-      const res = await fetch(`data/reach_${key}.json`);
-      if (!res.ok) throw new Error(res.status);
-      state.data[key] = await res.json();
-    } catch (e) {
-      document.getElementById('status').textContent =
-        `No data for "${key}" (data/reach_${key}.json). Run scripts/build_reachability.py.`;
-      return;
-    }
+function defaultSlot(slots, date) {
+  // today -> next slot after now; otherwise DEFAULT_SLOT
+  let target = toMin(DEFAULT_SLOT);
+  if (date === isoToday()) {
+    const now = new Date();
+    target = now.getHours() * 60 + now.getMinutes();
   }
-  buildChangeChecks(state.data[key].meta.max_changes);
-  render();
+  const i = slots.findIndex(s => toMin(s) >= target);
+  return i === -1 ? slots.length - 1 : i;
 }
 
-loadOrigin();
+async function init() {
+  try {
+    [state.manifest, state.stations] = await Promise.all([
+      fetchJson('data/manifest.json'), fetchJson('data/stations.json')]);
+  } catch (e) {
+    setStatus(`No data (${e.message}). Run scripts/build_reachability.py.`);
+    return;
+  }
+  const m = state.manifest;
+
+  // origin
+  const origins = Object.entries(m.origins);
+  state.origin = origins[0][0];
+  fillSelect($('origin'), origins.map(([k, o]) => [k, o.label]), state.origin);
+  $('origin').onchange = e => { state.origin = e.target.value; loadReach(); };
+
+  // date: today if available, else first upcoming, else first
+  const today = isoToday();
+  state.date = m.dates.find(d => d >= today) || m.dates[0];
+  fillSelect($('date'), m.dates.map(d => [d, fmtDate(d) + (d < today ? ' (past)' : '')]), state.date);
+
+  // time
+  state.slot = defaultSlot(m.slots, state.date);
+  fillSelect($('time'), m.slots.map((s, i) => [i, s]), state.slot);
+  $('time').onchange = e => { state.slot = +e.target.value; render(); };
+  $('date').onchange = e => { state.date = e.target.value; loadReach(); };
+
+  // slider + checkboxes
+  // min/max sliders, kept so that min <= max
+  const sMin = $('mintime'), sMax = $('maxtime');
+  sMin.max = sMax.max = m.max_minutes;
+  sMin.value = state.minTime;
+  sMax.value = state.maxTime;
+  sMin.oninput = () => {
+    if (+sMin.value > +sMax.value) sMax.value = sMin.value;
+    state.minTime = +sMin.value; state.maxTime = +sMax.value; render();
+  };
+  sMax.oninput = () => {
+    if (+sMax.value < +sMin.value) sMin.value = sMax.value;
+    state.minTime = +sMin.value; state.maxTime = +sMax.value; render();
+  };
+  buildChecks('changes', CHANGE_LABELS.slice(0, m.max_changes + 1).map((label, value) => ({value, label})),
+    state.changes, render);
+  buildChecks('modes', MODES.map(m => ({value: m.bit, label: m.label})), state.modes, render);
+
+  if (m.dates.every(d => d < today))
+    setStatus('Data is outdated: rerun scripts/build_reachability.py');
+  loadReach();
+}
+
+init();
