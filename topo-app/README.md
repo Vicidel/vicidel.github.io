@@ -3,6 +3,7 @@
 ### Strava activities
 
 Go to [Strava API](https://www.strava.com/settings/api), then setup a token. Then run the `get_activities.sh` script and input them. This should create a file with the client ID in data.
+Go to the [Download my account](https://www.strava.com/athlete/download_my_account) page, request and get a zip.
 
 ### Roads
 If you want roads: go to [Overpass](https://overpass-turbo.eu/#), then add this input (for all drivable roads in Lausanne)
