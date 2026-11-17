@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transit Reach</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="panel">
+    <div class="row">
+      <label for="origin">From</label>
+      <select id="origin"></select>
+    </div>
+
+    <div class="row">
+      <label for="date">Date</label>
+      <select id="date"></select>
+      <label for="time">at</label>
+      <select id="time"></select>
+    </div>
+
+    <div class="row col">
+      <label for="mintime">Min travel time: <b id="mintime-lbl"></b></label>
+      <input type="range" id="mintime" min="0" max="240" step="5" value="0" />
+      <label for="maxtime">Max travel time: <b id="maxtime-lbl"></b></label>
+      <input type="range" id="maxtime" min="10" max="240" step="5" value="90" />
+    </div>
+
+    <div class="row col">
+      <span>Changes</span>
+      <div id="changes" class="checks"></div>
+    </div>
+
+    <div class="row col">
+      <span>Stops served by</span>
+      <div id="modes" class="checks"></div>
+    </div>
+
+    <div id="status"></div>
+    <div id="legend"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
